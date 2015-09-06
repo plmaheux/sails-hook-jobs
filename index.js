@@ -29,6 +29,7 @@ module.exports = function(sails) {
       jobs: {
         "globalJobsObjectName": "Jobs",
         "jobsDirectory": "api/jobs",
+        "startEvent" : 'start-agenda',
         "db": { 
             "address"    : "localhost:27017/jobs",
             "collection" : "agendaJobs" 
@@ -38,6 +39,7 @@ module.exports = function(sails) {
         "maxConcurrency": 20,
         "defaultConcurrency": 5,
         "defaultLockLifetime": 10000,
+        
       }
     },
 
@@ -92,12 +94,17 @@ module.exports = function(sails) {
       if (sails.hooks.pubsub)
         eventsToWaitFor.push('hook:pubsub:loaded');
 
+      sails.on(config.startEvent, function(){
+          agenda.start();
+          sails.log.verbose("sails jobs started")
+      });
+
       sails.after(eventsToWaitFor, function(){
         
 //        if (jobs.length > 0) {
           // start agenda
-          agenda.start();
-          sails.log.verbose("sails jobs started")
+          //agenda.start();
+          //sails.log.verbose("sails jobs started")
 //        }
         
         // Now we will return the callback and our hook
