@@ -20,7 +20,7 @@
     "isHook": true
   },
   "dependencies": {
-    "agenda": "^0.6.26",
+    "agenda": "0.8.1",
     "include-all": "^0.1.6",
     "lodash": "^2.4.1"
   },
